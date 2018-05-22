@@ -3,7 +3,7 @@
 
 given(coleta,local(caminhaoO,q2)).
 given(coleta,local(caminhaoS,q5)).
-given(local(caminhaoL,q7)).
+given(coleta,local(caminhaoL,q7)).
 
 
 given(coleta,status(lS2,vazio)).
@@ -52,9 +52,15 @@ always(local(lO5,q7)).
 
 imposs(local(X,Y)&local(X,Z)&notequal(Y,Z)).
 
-can(recolher(C,L), caminhao(C)&lixeira(L)&status(L,cheio)&local(L,X)&local(C,X)&tipo(C,T)&tipo(L,T)).
-add(status(L,vazio), recolher(C,L)).
-del(status(L,cheio), recolher(C,L)).
+%can(recolher(C,L), caminhao(C)&lixeira(L)&status(L,cheio)&local(L,X)&local(C,X)&tipo(C,T)&tipo(L,T)).
+
+
+can(recolher(C,L), status(L,cheio)&tipo(L,T)&tipo(C,T)&caminhao(C)&local(L,X)&local(C,X)).
+add(status(L,sujo), recolher(_,L)).
+del(status(L,cheio), recolher(_,L)).
+
+
+
 can(limpar(C,L), local(L,X)&local(C,X)&caminhao(C)&lixeira(L)&tipo(C,lava)&tipo(L,T)&status(L,sujo)).
 add(status(L,vazio), limpar(C,L)).
 del(status(L,sujo), limpar(C,L)).
