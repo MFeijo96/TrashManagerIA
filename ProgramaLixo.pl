@@ -4,17 +4,19 @@
 given(coleta,local(caminhaoO,q2)).
 given(coleta,local(caminhaoS,q5)).
 given(coleta,local(caminhaoL,q7)).
+given(coleta,status(cidade,suja)).
 
 
-given(coleta,status(lS2,vazio)).
+given(coleta,status(lS1,cheio)).
+given(coleta,status(lS2,cheio)).
 given(coleta,status(lS3,cheio)).
-given(coleta,status(lS4,cheio)).
-given(coleta,status(lS5,vazio)).
+given(coleta,status(lS4,sujo)).
 given(coleta,status(lO1,sujo)).
-given(coleta,status(lO2,vazio)).
+given(coleta,status(lO2,cheio)).
 given(coleta,status(lO3,cheio)).
 given(coleta,status(lO4,sujo)).
 given(coleta,status(lO5,cheio)).
+given(coleta,status(cidade,sujo)).
 
 always(lixeira(lS2)).
 always(lixeira(lS3)).
@@ -28,6 +30,7 @@ always(lixeira(lO5)).
 always(caminhao(caminhaoO)).
 always(caminhao(caminhaoS)).
 always(caminhao(caminhaoL)).
+always(cidade(caxias)).
 always(tipo(lS1,seletivo)).
 always(tipo(lS2,seletivo)).
 always(tipo(lS3,seletivo)).
@@ -52,19 +55,17 @@ always(local(lO5,q7)).
 
 imposs(local(X,Y)&local(X,Z)&notequal(Y,Z)).
 
-%can(recolher(C,L), caminhao(C)&lixeira(L)&status(L,cheio)&local(L,X)&local(C,X)&tipo(C,T)&tipo(L,T)).
-
-
 can(recolher(C,L), status(L,cheio)&tipo(L,T)&tipo(C,T)&caminhao(C)&local(L,X)&local(C,X)).
 add(status(L,sujo), recolher(_,L)).
 del(status(L,cheio), recolher(_,L)).
 
+can(limpar(C,L), status(L,sujo)&tipo(C,lava)&local(L,X)&local(C,X)).
+add(status(L,vazio), limpar(_,L)).
+del(status(L,sujo), limpar(_,L)).
 
-
-can(limpar(C,L), local(L,X)&local(C,X)&caminhao(C)&lixeira(L)&tipo(C,lava)&tipo(L,T)&status(L,sujo)).
-add(status(L,vazio), limpar(C,L)).
-del(status(L,sujo), limpar(C,L)).
-
+can(iniciarRota(C), cidade(C)&status(lS1,vazio)&status(lS2,vazio)&status(lS3,vazio)&status(lS4,vazio)&status(lO1,vazio)&status(lO2,vazio)&status(lO3,vazio)&status(lO4,vazio)&status(lO5,vazio)).
+add(status(C,limpo), iniciarRota(C)).
+del(status(C,sujo), iniciarRota(C)).
 
 can(go(C,q1),local(C,q0)&caminhao(C)).
 add(local(C, q1), go(C,q1)).
