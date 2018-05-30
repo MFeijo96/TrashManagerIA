@@ -100,6 +100,3 @@ del(local(C, q6), go(C,q7)).
 can(go(C,q0),local(C,q7)&caminhao(C)).
 add(local(C, q0), go(C,q0)).
 del(local(C, q7), go(C,q0)).
-
-exerc1:-
-    plans(recolher(caminhaoO,lO3)&recolher(caminhaoO,lO3),coleta).
